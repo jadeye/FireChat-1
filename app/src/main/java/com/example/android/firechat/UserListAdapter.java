@@ -1,5 +1,6 @@
 package com.example.android.firechat;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +21,14 @@ public class UserListAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public UserListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UserListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_user, null, false);
         //apparently this can amend any problems with RecyclerView Layouts.
-        RecyclerView.LayoutParams lp =
-                new RecyclerView.LayoutParams(
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutView.setLayoutParams(lp);
-
         UserListViewHolder rcv = new UserListViewHolder(layoutView);
         return rcv;
     }

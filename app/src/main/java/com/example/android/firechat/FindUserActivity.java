@@ -1,5 +1,7 @@
 package com.example.android.firechat;
 
+import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +25,30 @@ public class FindUserActivity extends AppCompatActivity {
 
         userList = new ArrayList<UserObject>();
         initializeRecyclerView();
+        getContactList();
+    }
+
+    private void getContactList(){
+        Cursor phones = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+        //own pre-optimisation - may be quicker, but if it breaks anything just init
+        //the strings in the loop.
+        String name;
+        String phone;
+        UserObject mContact;
+        while(phones.moveToNext()){
+            name = phones.getString(
+                    phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            phone = phones.getString(
+                    phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            mContact = new UserObject(name, phone);
+            userList.add(mContact);
+            mUserListAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initializeRecyclerView() {
